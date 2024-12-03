@@ -1,3 +1,4 @@
+
 # AI Property Finder
 
 A modern property search interface built with React and TypeScript, integrating with real estate data APIs to provide comprehensive property information.
