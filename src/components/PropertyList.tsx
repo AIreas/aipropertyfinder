@@ -112,7 +112,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties = [], loading })
                   <h3 className="text-lg font-semibold text-gray-900">${formatPrice(property.price)}</h3>
                   <div className="flex items-center text-gray-500 mt-1">
                     <MapPin className="h-4 w-4 mr-1" />
-                    <p className="text-sm">{property.address}</p>
+                    <p className="text-sm">{property.address}, {property.city}, {property.state} {property.zipCode}</p>
                   </div>
                   <div className="flex items-center text-gray-500 mt-1">
                     <Home className="h-4 w-4 mr-1" />

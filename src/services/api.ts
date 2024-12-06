@@ -40,32 +40,38 @@ const propertyTypeMap = {
 // All property type parameters
 const allPropertyTypes = Object.values(propertyTypeMap);
 
-const mapProperty = (property: any) => ({
-  id: property.zpid,
-  address: property.streetAddress,
-  city: property.city,
-  state: property.state,
-  zipCode: property.zipcode,
-  price: property.price || 0,
-  beds: property.bedrooms || 0,
-  baths: property.bathrooms || 0,
-  sqft: property.livingArea || 0,
-  imageUrl: property.imgSrc || 'https://via.placeholder.com/400x300?text=No+Image',
-  propertyType: property.homeType,
-  zestimate: property.zestimate,
-  taxValue: property.taxAssessedValue,
-  zillowLink: `https://www.zillow.com/homedetails/${property.zpid}`,
-  lotSize: property.lotSize,
-  yearBuilt: property.yearBuilt || null,
-  description: property.description,
-  listingAgent: {
-    name: 'Loading...',
-    brokerName: 'Loading...',
-    phone: 'Loading...',
-    email: 'Loading...',
-    photo: null
-  }
-});
+const mapProperty = (property: any) => {
+  // Format address for URL
+  const formattedAddress = `${property.streetAddress}-${property.city}-${property.state}-${property.zipcode}`.replace(/\s+/g, '-');
+  
+  return {
+    id: property.zpid,
+    address: property.streetAddress,
+    city: property.city,
+    state: property.state,
+    zipCode: property.zipcode,
+    price: property.price || 0,
+    beds: property.bedrooms || 0,
+    baths: property.bathrooms || 0,
+    sqft: property.livingArea || 0,
+    imageUrl: property.imgSrc || 'https://via.placeholder.com/400x300?text=No+Image',
+    propertyType: property.homeType,
+    zestimate: property.zestimate,
+    taxValue: property.taxAssessedValue,
+    zillowLink: `https://www.zillow.com/homedetails/${formattedAddress}/${property.zpid}_zpid/`,
+    lotSize: property.lotSize,
+    yearBuilt: property.yearBuilt || null,
+    description: property.description,
+    listingAgent: {
+      name: 'Loading...',
+      brokerName: 'Loading...',
+      phone: 'Loading...',
+      email: 'Loading...',
+      photo: null
+    }
+  };
+};
+
 
 const getListingAgentDetails = async (zpid: string) => {
   try {
@@ -181,7 +187,8 @@ export const getPropertyDetails = async (propertyId: string) => {
       subdivision: data?.address?.subdivision,
       yearBuilt: data?.year_built,
       description: data?.description || 'No description available.',
-      listingAgent: agentDetails
+      listingAgent: agentDetails,
+      hdpUrl: data?.hdpUrl
     };
   } catch (error) {
     handleError(error);

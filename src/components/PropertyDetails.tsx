@@ -39,7 +39,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property, onClose, on
         <div className="p-6">
           {/* Header Section */}
           <div className="flex justify-between items-start">
-            <h2 className="text-2xl font-bold text-gray-900">{property.address}</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{property.address}, {property.city}, {property.state} {property.zipCode}</h2>
             <button 
               onClick={onClose} 
               className="p-2 hover:bg-gray-100 rounded-full"
@@ -129,11 +129,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property, onClose, on
           {/* Action Buttons */}
           <div className="mt-6 flex space-x-4">
             <button
-              onClick={() => onExport(property)}
+              onClick={() => window.open(property.zillowLink, '_blank')}
               className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center"
             >
               <ExternalLink className="h-4 w-4 mr-2" />
-              Export to GHL
+              View on Zillow
             </button>
           </div>
         </div>
