@@ -29,12 +29,16 @@ export const exchangeCodeForToken = async (code: string) => {
   encodedParams.set('user_type', 'Location');       // If user_type is needed, put the correct value (e.g. 'Location')
   encodedParams.set('redirect_uri', REDIRECT_URI);
 
+  // Base64 encode the client ID and secret for the Authorization header
+  const basicAuth = btoa(`${GHL_CLIENT_ID}:${GHL_CLIENT_SECRET}`);
+
   const options = {
     method: 'POST',
     url: 'https://services.leadconnectorhq.com/oauth/token/',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json',
+      'Authorization': `Basic ${basicAuth}`, // Add the Basic Authorization header
       'Version': '2021-07-28' // Required API version 
     },
     data: encodedParams,
