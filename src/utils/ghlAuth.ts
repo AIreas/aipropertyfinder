@@ -34,7 +34,8 @@ export const exchangeCodeForToken = async (code: string) => {
     url: 'https://services.leadconnectorhq.com/oauth/token/',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Version': '2021-07-28' // Required API version 
     },
     data: encodedParams,
   };

@@ -63,7 +63,7 @@ export const exportToGHL = async (propertyData: PropertyData): Promise<void> => 
   const [firstName = '', lastName = ''] = (propertyData.listingAgent.name || '').split(' ');
 
   try {
-    await client.post('/contacts', {
+    await client.post('/contacts/', {
       // Contact Information (from Listing Agent)
       firstName,
       lastName,
