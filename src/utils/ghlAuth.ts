@@ -20,38 +20,30 @@ export const initiateGHLAuth = () => {
 
 // Exchange authorization code for access token and location details
 export const exchangeCodeForToken = async (code: string) => {
+  const encodedParams = new URLSearchParams();
+  // Set each parameter exactly as the sample does, using values from your environment
+  encodedParams.set('client_id', GHL_CLIENT_ID);
+  encodedParams.set('client_secret', GHL_CLIENT_SECRET);
+  encodedParams.set('grant_type', 'authorization_code'); // as per OAuth spec
+  encodedParams.set('code', code);
+  encodedParams.set('refresh_token', '');  // leave empty if you don't have one
+  encodedParams.set('user_type', '');      // leave empty if unsure, or 'Location' if required by your integration
+  encodedParams.set('redirect_uri', REDIRECT_URI);
+
+  const options = {
+    method: 'POST',
+    url: 'https://services.leadconnectorhq.com/oauth/token',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+    },
+    data: encodedParams,
+  };
+
   try {
-
-    // Ensure environment variables are set
-    if (!GHL_CLIENT_ID || !GHL_CLIENT_SECRET || !REDIRECT_URI) {
-      throw new Error('Missing OAuth configuration. Check environment variables.');
-    }
-
-    // Prepare the request body as application/x-www-form-urlencoded
-    const data = qs.stringify({
-      client_id: GHL_CLIENT_ID,
-      client_secret: GHL_CLIENT_SECRET,
-      grant_type: 'authorization_code',
-      code: code,
-      user_type: 'Location', // Only include this if required by your OAuth provider
-      redirect_uri: REDIRECT_URI
-    });
-    
-    const response = await axios.post(
-      'https://services.leadconnectorhq.com/oauth/token',
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-    );
-
-    console.log('Full response:', response);
-    console.log('Token response:', response.data);
-
-    return response.data;
-    
+    const { data } = await axios.request(options);
+    console.log('Token response data:', data);
+    return data;
   } catch (error) {
     console.error('Error exchanging code for token:', error);
     throw error;
