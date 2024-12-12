@@ -3,6 +3,7 @@ import { Building2, MapPin, Bed, Bath, Square, List, Grid, Download, ExternalLin
 import { PropertyData } from '../types';
 import PropertyDetails from './PropertyDetails';
 import { exportToGHL } from '../utils/ghlIntegration';
+import { hasValidGHLCredentials, getAuthUrl } from '../utils/ghlAuth';
 import { toast } from 'react-toastify';
 
 interface PropertyListProps {
@@ -16,6 +17,10 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties = [], loading })
 
   const handleExport = async (property: PropertyData) => {
     try {
+      if (!hasValidGHLCredentials()) {
+        window.location.href = getAuthUrl();
+        return;
+      }
       await exportToGHL(property);
       toast.success('Property exported to GHL successfully');
     } catch (error) {
