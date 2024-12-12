@@ -3,11 +3,16 @@
  * Handles exporting property data to GHL via OAuth API
  */
 
-const GHL_API_URL = 'https://services.gohighlevel.com/v1/contacts/';
+const GHL_API_URL = 'https://services.leadconnectorhq.com/contacts/';
 
 export const exportToGHL = async (propertyData: any) => {
   const token = localStorage.getItem('ghl_access_token');
   const locationId = localStorage.getItem('ghl_location_id');
+  //const token = 'pit-542a5d73-bb70-4f1f-8755-d801fe764986';
+  //const locationId = "5YrB6A0F3YI4XSvjfD25";
+
+  console.log('GHL Access Token:', token);
+  console.log('GHL Location ID:', locationId);
   
   if (!token || !locationId) {
     throw new Error('GHL authentication required');
@@ -19,6 +24,7 @@ export const exportToGHL = async (propertyData: any) => {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
+        'Version': "2021-07-28",
       },
       body: JSON.stringify({
         contact: {

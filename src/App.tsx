@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Building2, Settings, Database } from 'lucide-react';
+import React from 'react';
+import { Building2, Database } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import ApiSettings from './components/ApiSettings';
 import PropertySearch from './components/PropertySearch';
-import OAuthCallback from './components/OAuthCallback';
+import OAuthCallback from './components/OAuthCallback.tsx';
+import ConnectToGHLButton from './components/ghl/ConnectToGHLButton.tsx';
 
 // Initialize React Query client
 const queryClient = new QueryClient({
@@ -19,8 +19,6 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC = () => {
-  const [showSettings, setShowSettings] = useState(false);
-
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -42,13 +40,7 @@ const App: React.FC = () => {
                       </div>
 
                       <div className="flex items-center space-x-4">
-                        <button
-                          onClick={() => setShowSettings(true)}
-                          className="p-2 text-aires-gray hover:text-aires-darkGray hover:bg-aires-lightGray rounded-lg"
-                          title="API Settings"
-                        >
-                          <Settings className="h-6 w-6" />
-                        </button>
+                        <ConnectToGHLButton />
                         <a
                           href="#"
                           className="flex items-center text-sm text-aires-gray hover:text-aires-darkGray"
@@ -65,10 +57,6 @@ const App: React.FC = () => {
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                   <PropertySearch />
                 </main>
-
-                {showSettings && (
-                  <ApiSettings onClose={() => setShowSettings(false)} />
-                )}
 
                 <ToastContainer
                   position="bottom-right"
