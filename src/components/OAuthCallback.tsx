@@ -13,6 +13,15 @@ const OAuthCallback: React.FC = () => {
     const handleOAuthCallback = async () => {
       try {
         const code = searchParams.get('code');
+        const error = searchParams.get('error');
+
+        if (error) {
+          console.error('OAuth error:', error);
+          toast.error(`Authentication error: ${error}`);
+          navigate('/');
+          return;
+        }
+
         if (!code) {
           setStatus('Error: No authorization code received');
           return;

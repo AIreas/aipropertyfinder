@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { isTokenExpired } from '../utils/ghl/authUtils';
+import { isTokenExpired } from '../utils/ghlAuth';
 
 export const useGHLAuth = () => {
   const [isConnected, setIsConnected] = useState(false);

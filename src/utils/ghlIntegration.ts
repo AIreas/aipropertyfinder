@@ -22,7 +22,7 @@ const createGHLClient = () => {
     headers: {
       'Accept': 'application/json',
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
       'Version': '2021-07-28' // Required API version
     }
   });
