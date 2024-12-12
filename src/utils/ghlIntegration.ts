@@ -8,7 +8,6 @@ import { isTokenExpired } from './ghlAuth';
 
 const GHL_API_BASE = 'https://services.leadconnectorhq.com';
 
-
 const GHL_API_URL = 'https://services.leadconnectorhq.com/contacts/';
 
 /**
@@ -68,7 +67,7 @@ export const exportToGHL = async (propertyData: PropertyData): Promise<void> => 
       firstName,
       lastName,
       name: propertyData.listingAgent.name,
-      email: propertyData.listingAgent.email,
+      //email: propertyData.listingAgent.email,
       phone: propertyData.listingAgent.phone !== 'N/A' 
         ? formatPhoneNumber(propertyData.listingAgent.phone)
         : null,
