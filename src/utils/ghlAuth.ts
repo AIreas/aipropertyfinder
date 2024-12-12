@@ -34,7 +34,7 @@ export const exchangeCodeForToken = async (code: string) => {
 
   const options = {
     method: 'POST',
-    url: 'https://services.leadconnectorhq.com/oauth/token/',
+    url: 'https://services.leadconnectorhq.com/oauth/token',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json',
