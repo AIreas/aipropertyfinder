@@ -9,7 +9,7 @@ const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
  * Generates the GHL OAuth authorization URL
  */
 export const getAuthUrl = () => {
-  return `https://marketplace.gohighlevel.com/oauth/chooselocation?response_type=code&client_id=${GHL_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=contacts.write locations.readonly`;
+  return `https://marketplace.leadconnectorhq.com/oauth/chooselocation?response_type=code&client_id=${GHL_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=contacts.write locations.readonly`;
 };
 
 /**
@@ -22,12 +22,13 @@ export const exchangeCodeForToken = async (code: string): Promise<GHLTokenRespon
       client_secret: GHL_CLIENT_SECRET,
       grant_type: 'authorization_code',
       code,
+      user_type: 'Location',
       redirect_uri: REDIRECT_URI,
     });
 
     return response.data;
   } catch (error) {
-    console.error('Error exchanging code for token:', error);
+    console.error('Big Error exchanging code for token:', error);
     throw error;
   }
 };

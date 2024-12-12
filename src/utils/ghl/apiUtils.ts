@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { PropertyData } from '../../types';
 import { isTokenExpired } from './authUtils';
@@ -13,6 +14,7 @@ const createGHLClient = () => {
   return axios.create({
     baseURL: GHL_API_BASE,
     headers: {
+      'Accept': 'application/json',
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
       'Version': '2021-07-28' // Required API version
@@ -89,3 +91,4 @@ export const exportToGHL = async (propertyData: PropertyData): Promise<void> => 
     throw error;
   }
 };
+

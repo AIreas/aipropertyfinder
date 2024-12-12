@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { GHLTokenResponse } from '../types/ghl';
 
 const GHL_CLIENT_ID = import.meta.env.VITE_GHL_CLIENT_ID;
 const GHL_CLIENT_SECRET = import.meta.env.VITE_GHL_CLIENT_SECRET;
@@ -40,6 +41,16 @@ export const exchangeCodeForToken = async (code: string) => {
     console.error('Error exchanging code for token:', error);
     throw error;
   }
+};
+
+/**
+ * Checks if the stored token is expired
+ */
+export const isTokenExpired = (): boolean => {
+  const expiry = localStorage.getItem('ghl_token_expiry');
+  if (!expiry) return true;
+  
+  return Date.now() > parseInt(expiry, 10);
 };
 
 export const hasValidGHLCredentials = () => {

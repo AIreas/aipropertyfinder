@@ -17,7 +17,12 @@ const OAuthCallback: React.FC = () => {
           throw new Error('No authorization code received');
         }
 
+        // Add error handling and logging
+        console.log('Exchanging code for token...');
         const tokenData = await exchangeCodeForToken(code);
+        // Add error handling and logging
+        console.log('Exchanging code for token...');
+       
         
         // Store tokens in localStorage
         localStorage.setItem('ghl_access_token', tokenData.access_token);
