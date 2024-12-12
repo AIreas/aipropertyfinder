@@ -19,15 +19,14 @@ export const initiateGHLAuth = () => {
 };
 
 // Exchange authorization code for access token and location details
-export const exchangeCodeForToken = async (code: string) => {
+export const exchangeCodeForToken = async (code) => {
   const encodedParams = new URLSearchParams();
-  // Set each parameter exactly as the sample does, using values from your environment
   encodedParams.set('client_id', GHL_CLIENT_ID);
   encodedParams.set('client_secret', GHL_CLIENT_SECRET);
-  encodedParams.set('grant_type', 'authorization_code'); // as per OAuth spec
+  encodedParams.set('grant_type', 'authorization_code');
   encodedParams.set('code', code);
-  encodedParams.set('refresh_token', '');  // leave empty if you don't have one
-  encodedParams.set('user_type', '');      // leave empty if unsure, or 'Location' if required by your integration
+  encodedParams.set('refresh_token', '');   // If refresh_token is not required, you can leave it blank
+  encodedParams.set('user_type', '');       // If user_type is needed, put the correct value (e.g. 'Location')
   encodedParams.set('redirect_uri', REDIRECT_URI);
 
   const options = {
@@ -35,14 +34,14 @@ export const exchangeCodeForToken = async (code: string) => {
     url: 'https://services.leadconnectorhq.com/oauth/token',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json',
+      'Accept': 'application/json'
     },
     data: encodedParams,
   };
 
   try {
     const { data } = await axios.request(options);
-    console.log('Token response data:', data);
+    console.log('Token Response:', data);
     return data;
   } catch (error) {
     console.error('Error exchanging code for token:', error);
