@@ -22,12 +22,12 @@ export const initiateGHLAuth = () => {
 // Exchange authorization code for access token and location details
 export const exchangeCodeForToken = async (code: string) => {
   const encodedParams = new URLSearchParams();
-  encodedParams.set('client_id', '67477fe27f65f5b802db2caf-m4kx5prk');
-  encodedParams.set('client_secret', '33e9d32f-8e1c-489e-8293-e40cfb2bd7b8');
+  encodedParams.set('client_id', GHL_CLIENT_ID);
+  encodedParams.set('client_secret', GHL_CLIENT_SECRET);
   encodedParams.set('grant_type', 'authorization_code');
   encodedParams.set('code', code);
   encodedParams.set('user_type', 'Location');       // If user_type is needed, put the correct value (e.g. 'Location')
-  encodedParams.set('redirect_uri', 'https://aipropertyfinder.netlify.app/oauth/callback');
+  encodedParams.set('redirect_uri', REDIRECT_URI);
 
   const options = {
     method: 'POST',
