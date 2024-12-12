@@ -20,23 +20,26 @@ export const initiateGHLAuth = () => {
 // Exchange authorization code for access token and location details
 export const exchangeCodeForToken = async (code: string) => {
   try {
-    const response = await axios.post('https://services.leadconnectorhq.com/oauth/token', {
-      client_id: GHL_CLIENT_ID,
-      client_secret: GHL_CLIENT_SECRET,
-      grant_type: 'authorization_code',
-      code,
-      user_type: 'Location',
-      redirect_uri: REDIRECT_URI,
+    // Create URLSearchParams for form-encoded data
+    const params = new URLSearchParams();
+    params.append('client_id', GHL_CLIENT_ID);
+    params.append('client_secret', GHL_CLIENT_SECRET);
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+    params.append('user_type', 'Location');
+    params.append('redirect_uri', REDIRECT_URI);
+    
+    const response = await axios.post('https://services.leadconnectorhq.com/oauth/token', params.toString(), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     });
 
-    // Log the full response object for debugging
     console.log('Full response:', response);
-    // Log the token response
     console.log('Token response:', response.data);
 
     return response.data;
     
-
   } catch (error) {
     console.error('Error exchanging code for token:', error);
     throw error;
