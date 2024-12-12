@@ -5,8 +5,8 @@ import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import PropertySearch from './components/PropertySearch';
-import OAuthCallback from './components/OAuthCallback.tsx';
-import ConnectToGHLButton from './components/ghl/ConnectToGHLButton.tsx';
+import OAuthCallback from './components/OAuthCallback';
+import ConnectToGHLButton from './components/ghl/ConnectToGHLButton';
 
 // Initialize React Query client
 const queryClient = new QueryClient({
