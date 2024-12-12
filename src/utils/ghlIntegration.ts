@@ -2,51 +2,96 @@
  * Utility module for Go High Level (GHL) integration
  * Handles exporting property data to GHL via OAuth API
  */
+import axios from 'axios';
+import { PropertyData } from '../types';
+import { isTokenExpired } from './ghlAuth';
+
+const GHL_API_BASE = 'https://services.leadconnectorhq.com';
+
 
 const GHL_API_URL = 'https://services.leadconnectorhq.com/contacts/';
 
-export const exportToGHL = async (propertyData: any) => {
+/**
+ * Creates an axios instance with authorization headers
+ */
+const createGHLClient = () => {
+  const token = localStorage.getItem('ghl_access_token');
+  
+  return axios.create({
+    baseURL: GHL_API_BASE,
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Version': '2021-07-28' // Required API version
+    }
+  });
+};
+
+/**
+ * Formats a phone number to E.164 format
+ */
+const formatPhoneNumber = (phone: string): string => {
+  // Remove all non-numeric characters
+  const cleaned = phone.replace(/\D/g, '');
+  
+  // Add US country code if not present
+  if (cleaned.length === 10) {
+    return `+1${cleaned}`;
+  }
+  return `+${cleaned}`;
+};
+
+/**
+ * Exports property data to GHL as a contact
+ */
+export const exportToGHL = async (propertyData: PropertyData): Promise<void> => {
   const token = localStorage.getItem('ghl_access_token');
   const locationId = localStorage.getItem('ghl_location_id');
-  //const token = 'pit-542a5d73-bb70-4f1f-8755-d801fe764986';
-  //const locationId = "5YrB6A0F3YI4XSvjfD25";
 
-  console.log('GHL Access Token:', token);
-  console.log('GHL Location ID:', locationId);
-  
   if (!token || !locationId) {
     throw new Error('GHL authentication required');
   }
 
+  if (isTokenExpired()) {
+    throw new Error('GHL token expired');
+  }
+
+  const client = createGHLClient();
+
+  // Split agent name into first and last name
+  const [firstName = '', lastName = ''] = (propertyData.listingAgent.name || '').split(' ');
+
   try {
-    const response = await fetch(`${GHL_API_URL}?locationId=${locationId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        'Version': "2021-07-28",
-      },
-      body: JSON.stringify({
-        contact: {
-          type: 'property_listing',
-          address: propertyData.address,
-          custom_field: {
-            property_price: propertyData.price,
-            beds: propertyData.beds,
-            baths: propertyData.baths,
-            sqft: propertyData.sqft,
-            property_type: propertyData.propertyType,
-            listing_agent_name: propertyData.listingAgent.name,
-            listing_agent_phone: propertyData.listingAgent.phone,
-            listing_agent_email: propertyData.listingAgent.email,
-            property_image_url: propertyData.imageUrl,
-            year_built: propertyData.yearBuilt
-          },
-        },
-      }),
+    await client.post('/contacts', {
+      // Contact Information (from Listing Agent)
+      firstName,
+      lastName,
+      name: propertyData.listingAgent.name,
+      email: propertyData.listingAgent.email,
+      phone: propertyData.listingAgent.phone !== 'N/A' 
+        ? formatPhoneNumber(propertyData.listingAgent.phone)
+        : null,
+      
+      // Location Details
+      locationId,
+      
+      // Property Address
+      address1: propertyData.address,
+      city: propertyData.city,
+      state: propertyData.state,
+      postalCode: propertyData.zipCode,
+      country: 'US',
+      
+      // Additional Details
+      companyName: propertyData.listingAgent.brokerName || null,
+      source: 'AIRES Property Finder',
+      
+      // Tags for categorization
+      tags: ['Property Listing', propertyData.propertyType],
+
+      
     });
-    
-    return response.json();
   } catch (error) {
     console.error('Error exporting to GHL:', error);
     throw error;

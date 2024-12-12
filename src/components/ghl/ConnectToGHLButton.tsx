@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'lucide-react';
-import { getAuthUrl } from '../../utils/ghl/authUtils';
+import { getAuthUrl } from '../../utils/ghlAuth';
 import { useGHLAuth } from '../../hooks/useGHLAuth';
 
 const ConnectToGHLButton: React.FC = () => {
