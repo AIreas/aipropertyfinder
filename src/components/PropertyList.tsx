@@ -74,7 +74,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties = [], loading })
         <div className="flex space-x-2">
           <button
             onClick={() => setViewType('grid')}
-            className={`p-2 rounded-lg ${viewType === 'grid' ? 'bg-aires-green text-white' : 'bg-gray-100'}`}
+            className={`p-2 rounded-lg ${viewType === 'grid' ? 'bg-aires-blue text-white' : 'bg-gray-100'}`}
           >
             <Grid className="h-5 w-5" />
           </button>
@@ -87,7 +87,7 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties = [], loading })
         </div>
         <button
           onClick={handleExportAll}
-          className="flex items-center px-4 py-2 bg-aires-green text-white rounded-lg hover:bg-opacity-90"
+          className="flex items-center px-4 py-2 bg-aires-blue text-white rounded-lg hover:bg-opacity-90"
         >
           <Download className="h-4 w-4 mr-2" />
           Export All to GHL

@@ -8,7 +8,8 @@ export default {
           green: '#B4C234',
           gray: '#536B7A',
           lightGray: '#F5F7F9',
-          darkGray: '#2A3B47'
+          darkGray: '#2A3B47',
+          blue: '#1F3B4C'
         }
       }
     },

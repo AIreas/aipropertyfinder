@@ -23,7 +23,7 @@ const ConnectToGHLButton: React.FC = () => {
       ) : (
         <button
           onClick={handleConnect}
-          className="flex items-center px-4 py-2 text-white bg-aires-green rounded-lg hover:bg-opacity-90"
+          className="flex items-center px-4 py-2 text-white bg-aires-blue rounded-lg hover:bg-opacity-90"
         >
           <Link className="w-4 h-4 mr-2" />
           Connect to GHL

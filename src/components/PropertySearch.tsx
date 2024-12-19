@@ -100,7 +100,7 @@ const PropertySearch: React.FC = () => {
           <button
             onClick={handleSearch}
             disabled={isLoading}
-            className="flex items-center justify-center px-6 py-2 bg-aires-green text-white rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-aires-green focus:ring-offset-2 disabled:opacity-50"
+            className="flex items-center justify-center px-6 py-2 bg-aires-blue text-white rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-aires-green focus:ring-offset-2 disabled:opacity-50"
           >
             <Search className="h-5 w-5 mr-2" />
             Search

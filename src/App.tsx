@@ -32,7 +32,7 @@ const App: React.FC = () => {
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <Building2 className="h-8 w-8 text-aires-green" />
+                        <Building2 className="h-8 w-8 text-aires-blue" />
                         <div>
                           <h1 className="text-xl font-bold text-aires-darkGray">AIRES Property Finder</h1>
                           <p className="text-sm text-aires-gray">Zillow & MLS Data Integration</p>
